@@ -1,6 +1,5 @@
 <?php
 
-require 'curl.php';
 require 'simplehtmldom.php';
 
 $version = $argv[1];
@@ -18,7 +17,7 @@ $urlList = [
 
 $url = $urlList[$version];
 
-$ret = (new Curl())->to($url)->get();
+$ret = file_get_contents($url);
 
 $html = new SimpleHtmlDom();
 $html->load($ret);
@@ -44,7 +43,7 @@ foreach ($chapters as $chapter) {
         $link = $a->href;
         $data[] = [
             'arg' => $link,
-            'title' => sprintf('%s》%s', $chapterName, $fileName),
+            'title' => sprintf('%s->%s', $chapterName, $fileName),
             'subtitle' => $link,
             'quicklookurl' => $link,
         ];
